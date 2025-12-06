@@ -2,16 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class User extends Authenticatable
+class Card extends Model
 {
-    use HasApiTokens, Notifiable;
-
-    // UUID settings
     public $incrementing = false;
     protected $keyType = 'string';
 
@@ -28,14 +23,17 @@ class User extends Authenticatable
 
     protected $fillable = [
         'id',
-        'name',
-        'email',
-        'password',
-        'role'
+        'set_id',
+        'japanese_word',
+        'japanese_reading',
+        'meaning',
+        'example_sentence',
+        'pitch_accent',
+        'is_mastered'
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token'
-    ];
+    public function set()
+    {
+        return $this->belongsTo(Set::class);
+    }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('set_id');
-            $table->foreign('set_id')->references('id')->on('study_sets')->onDelete('cascade');
+            $table->foreign('set_id')->references('id')->on('sets')->onDelete('cascade');
             $table->string('japanese_word', 255);
             $table->string('japanese_reading', 255);
             $table->text('meaning');
