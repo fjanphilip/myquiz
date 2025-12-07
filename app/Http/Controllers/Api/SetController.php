@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Set;
+use App\Models\StudySet;
 use Illuminate\Http\Request;
 
 class SetController extends Controller
@@ -11,7 +11,7 @@ class SetController extends Controller
     // GET /sets
     public function index(Request $request)
     {
-        $sets = Set::where('user_id', $request->user()->id)->get();
+        $sets = StudySet::where('user_id', $request->user()->id)->get();
 
         return response()->json($sets);
     }
@@ -24,7 +24,7 @@ class SetController extends Controller
             'description' => 'nullable|string'
         ]);
 
-        $set = Set::create([
+        $set = StudySet::create([
             'user_id' => $request->user()->id,
             'title'   => $request->title,
             'description' => $request->description
@@ -36,7 +36,7 @@ class SetController extends Controller
     // GET /sets/{id}
     public function show(Request $request, $id)
     {
-        $set = Set::where('id', $id)
+        $set = StudySet::where('id', $id)
             ->where('user_id', $request->user()->id)
             ->with('cards')
             ->firstOrFail();
@@ -52,7 +52,7 @@ class SetController extends Controller
             'description' => 'nullable|string'
         ]);
 
-        $set = Set::where('id', $id)
+        $set = StudySet::where('id', $id)
             ->where('user_id', $request->user()->id)
             ->firstOrFail();
 
@@ -73,14 +73,14 @@ class SetController extends Controller
     // DELETE /sets/{id}
     public function destroy(Request $request, $id)
     {
-        $set = Set::where('id', $id)
+        $set = StudySet::where('id', $id)
             ->where('user_id', $request->user()->id)
             ->firstOrFail();
 
         $set->delete();
 
         return response()->json([
-            'message' => 'Set deleted successfully.'
+            'message' => 'StudySet deleted successfully.'
         ]);
     }
 }

@@ -12,10 +12,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function () {
         return auth()->user();
     });
-    Route::get('/sets', [SetController::class, 'index'])->name('sets');
-    Route::post('/sets', [SetController::class, 'store'])->name('sets.store');
-    Route::get('/sets/{id}', [SetController::class, 'show'])->name('sets.show');
-    Route::put('/sets/{id}', [SetController::class, 'update'])->name('sets.update');
-    Route::patch('/sets/{id}', [SetController::class, 'update'])->name('sets.update');
-    Route::delete('/sets/{id}', [SetController::class, 'destroy'])->name('sets.destroy');
+    Route::get('/study-sets', [SetController::class, 'index'])->name('sets');
+    Route::post('/study-sets', [SetController::class, 'store'])->name('sets.store');
+    Route::get('/study-sets/{id}', [SetController::class, 'show'])->name('sets.show');
+    Route::put('/study-sets/{id}', [SetController::class, 'update'])->name('sets.update');
+    Route::patch('/study-sets/{id}', [SetController::class, 'update'])->name('sets.update');
+    Route::delete('/study-sets/{id}', [SetController::class, 'destroy'])->name('sets.destroy');
 });

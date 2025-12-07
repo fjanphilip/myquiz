@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('set_id');
-            $table->foreign('set_id')->references('id')->on('sets')->onDelete('cascade');
+            $table->foreignUuid('study_set_id')->constrained('study_sets')->onDelete('cascade');
             $table->string('japanese_word', 255);
             $table->string('japanese_reading', 255);
             $table->text('meaning');
-            $table->text('example_sentence')->nullable();
+            $table->textg('example_sentence')->nullable();
             $table->string('pitch_accent', 255)->nullable();
             $table->boolean('is_mastered')->default(false);
             $table->timestamps();
