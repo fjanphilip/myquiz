@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('japanese_word', 255);
             $table->string('japanese_reading', 255);
             $table->text('meaning');
-            $table->textg('example_sentence')->nullable();
+            $table->text('example_sentence')->nullable();
             $table->string('pitch_accent', 255)->nullable();
             $table->boolean('is_mastered')->default(false);
             $table->timestamps();

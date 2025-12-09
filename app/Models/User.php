@@ -13,16 +13,7 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable, HasUuids;
 
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = (string) Str::uuid();
-            }
-        });
-    }
+    // Boot method removed as HasUuids handles it
 
     protected $fillable = [
         'id',

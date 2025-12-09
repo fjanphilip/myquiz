@@ -12,7 +12,7 @@ class Card extends Model
 
     protected $fillable = [
         'id',
-        'set_id',
+        'study_set_id',
         'japanese_word',
         'japanese_reading',
         'meaning',
@@ -21,7 +21,7 @@ class Card extends Model
         'is_mastered'
     ];
 
-    public function set()
+    public function studySet()
     {
         return $this->belongsTo(StudySet::class);
     }
