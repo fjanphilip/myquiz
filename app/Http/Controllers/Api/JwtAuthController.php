@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Hash;
 
 class JwtAuthController extends Controller
 {
@@ -28,7 +29,8 @@ class JwtAuthController extends Controller
 
     public function me()
     {
-        return response()->json(auth('api')->user());
+        return new UserResource(auth('api')->user());
+
     }
 
     public function logout()
@@ -50,7 +52,7 @@ class JwtAuthController extends Controller
             'access_token' => $token,
             'token_type'   => 'bearer',
             'expires_in'   => auth('api')->factory()->getTTL() * 60,
-            'user'         => auth('api')->user()
+            'user' => new UserResource(auth('api')->user())
         ]);
     }
 }

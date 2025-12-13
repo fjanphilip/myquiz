@@ -14,17 +14,29 @@ class CardController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        $query = Card::query();
+{
+    $cards = Card::query()
+        ->whereHas('studySet', function ($q) use ($request) {
+            $q->where('user_id', $request->user()->id);
+        })
+        ->when($request->filled('study_set_id'), function ($q) use ($request) {
+            $q->where('study_set_id', $request->study_set_id);
+        })
+        ->when($request->filled('search'), function ($q) use ($request) {
+            $q->where(function ($sub) use ($request) {
+                $sub->where('japanese_word', 'like', "%{$request->search}%")
+                    ->orWhere('meaning', 'like', "%{$request->search}%");
+            });
+        })
+        ->latest()
+        ->paginate(20)
+        ->withQueryString();
 
-        if ($request->has('study_set_id')) {
-            $query->where('study_set_id', $request->study_set_id);
-        }
+    return CardResource::collection($cards);
+}
 
-        $cards = $query->latest()->paginate(20);
 
-        return CardResource::collection($cards);
-    }
+
 
     /**
      * Store a newly created resource in storage.

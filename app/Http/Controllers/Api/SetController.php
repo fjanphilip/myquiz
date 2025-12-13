@@ -2,19 +2,37 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\StudySet;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\StudySetResource;
 
 class SetController extends Controller
 {
     // GET /sets
     public function index(Request $request)
-    {
-        $sets = StudySet::where('user_id', $request->user()->id)->get();
+{
+    $request->validate([
+        'search' => 'nullable|string|max:100',
+        'per_page' => 'nullable|integer|min:1|max:50',
+        'page' => 'nullable|integer|min:1',
+    ]);
 
-        return response()->json($sets);
-    }
+    $sets = StudySet::query()
+        ->where('user_id', $request->user()->id)
+        ->when($request->filled('search'), function ($q) use ($request) {
+            $q->where(function ($sub) use ($request) {
+                $sub->where('title', 'like', "%{$request->search}%")
+                    ->orWhere('description', 'like', "%{$request->search}%");
+            });
+        })
+        ->latest()
+        ->paginate($request->per_page ?? 10)
+        ->withQueryString();
+
+    return StudySetResource::collection($sets);
+}
+
 
     // POST /sets
     public function store(Request $request)
