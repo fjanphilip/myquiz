@@ -25,5 +25,4 @@ class Card extends Model
     {
         return $this->belongsTo(StudySet::class);
     }
-    
 }
